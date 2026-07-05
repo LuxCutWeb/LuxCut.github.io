@@ -444,6 +444,7 @@ import { getAnalytics } from "firebase/analytics";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// firebase.js
 const firebaseConfig = {
   apiKey: "AIzaSyC2WF-2hldF6QzG5ZJNY7egsErmd-RyiiE",
   authDomain: "luxcutweb-8c8d7.firebaseapp.com",
@@ -454,10 +455,13 @@ const firebaseConfig = {
   measurementId: "G-4B31R2VXQQ"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+// Inicializar Firebase (SDK Compat)
+firebase.initializeApp(firebaseConfig);
 
+// Definir variables globales para que app.js las use
+const auth = firebase.auth();
+const db = firebase.firestore();
+const storage = firebase.storage();
 // Exportar servicios para usar en app.js
 export const auth = getAuth(app);
 export const db = getFirestore(app);
