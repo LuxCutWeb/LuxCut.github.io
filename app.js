@@ -1,4 +1,4 @@
-// --- 1. CONFIGURACIÓN DE FIREBASE (Al principio de app.js) ---
+// --- 1. CONFIGURACIÓN DE FIREBASE ---
 const firebaseConfig = {
   apiKey: "AIzaSyC2WF-2hldF6QzG5ZJNY7egsErmd-RyiiE",
   authDomain: "luxcutweb-8c8d7.firebaseapp.com",
@@ -11,25 +11,16 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-// Definimos las variables globales aquí mismo para que todo app.js las vea
+// Definimos las variables globales
 const auth = firebase.auth();
 const db = firebase.firestore();
 const storage = firebase.storage();
 
-// --- 2. TU LÓGICA DE LA WEB (Aquí empieza tu código original) ---
-const app = (() => {
-    // ... todo tu código original aquí ...
-})();
-
-
-
-
-// app.js
+// --- 2. LÓGICA DE LA APLICACIÓN ---
 const app = (() => {
     let currentUser = null;
     let userData = null;
     const ADMIN_EMAIL = 'luxcutweb@gmail.com';
-    // ... el resto de tu código ...
 
     // ==========================================
     // UTILS & UI
@@ -67,7 +58,6 @@ const app = (() => {
     // AUTH & USERS
     // ==========================================
     const initApp = () => {
-        // Escuchar estado de auth
         auth.onAuthStateChanged(async (user) => {
             currentUser = user;
             const guestReq = document.querySelectorAll('.guest-req');
@@ -79,7 +69,6 @@ const app = (() => {
                 guestReq.forEach(el => el.classList.add('hidden'));
                 authReq.forEach(el => el.classList.remove('hidden'));
                 
-                // Obtener doc
                 const doc = await db.collection('users').doc(user.uid).get();
                 if(doc.exists) {
                     userData = doc.data();
@@ -88,7 +77,6 @@ const app = (() => {
 
                 if (user.email === ADMIN_EMAIL) {
                     adminReq.forEach(el => el.classList.remove('hidden'));
-                    // Hide client profile for admin
                     Array.from(authReq).forEach(el => {
                         if(el.getAttribute('onclick') === "app.navigate('profile')") el.classList.add('hidden');
                     });
@@ -106,10 +94,8 @@ const app = (() => {
             }
         });
 
-        // Load public data
         loadServices();
         loadPromotions();
-        // Cargar galería de prueba (Simulada para diseño)
         renderGallery();
     };
 
@@ -123,7 +109,6 @@ const app = (() => {
         try {
             const cred = await auth.createUserWithEmailAndPassword(email, pass);
             
-            // Generar código único LUX000X (Búsqueda rápida)
             const usersSnap = await db.collection('users').orderBy('codeNum', 'desc').limit(1).get();
             let nextNum = 1;
             if(!usersSnap.empty) {
@@ -217,7 +202,6 @@ const app = (() => {
             grid.innerHTML = ''; select.innerHTML = '<option value="">Selecciona un servicio...</option>';
             snap.forEach(doc => {
                 const s = doc.data();
-                // Render Cards
                 grid.innerHTML += `
                     <div class="service-card glass hover-lift">
                         <div class="service-img" style="background-image: url('${s.img}')"></div>
@@ -231,7 +215,6 @@ const app = (() => {
                             <button class="btn-outline w-100 mt-auto" onclick="app.navigate('bookings')">Reservar</button>
                         </div>
                     </div>`;
-                // Render Booking Select Options
                 select.innerHTML += `<option value="${s.name}">${s.name} - S/ ${s.price}</option>`;
             });
         });
@@ -255,7 +238,6 @@ const app = (() => {
     };
 
     const renderGallery = () => {
-        // Simulación de imágenes para la UI, idealmente cargadas desde Firestore/Storage
         const urls = [
             'https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=600&q=80',
             'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=600&q=80',
@@ -298,8 +280,7 @@ const app = (() => {
         try {
             await db.collection('bookings').add(bookingData);
             
-            // Generar Link de WhatsApp
-            const phone = "51986757806"; // Reemplazar con el real
+            const phone = "51986757806"; 
             let msg = `Hola LUXCUT 💈.%0A%0ASoy *${bookingData.userName}*.%0ADeseo agendar una cita:%0A%0A✂️ Servicio: ${service}%0A📅 Fecha: ${date}%0A⏰ Hora: ${time}`;
             if(notes) msg += `%0A📝 Nota: ${notes}`;
             
@@ -322,7 +303,6 @@ const app = (() => {
     };
 
     const loadAdminDashboard = async () => {
-        // Stats
         db.collection('users').onSnapshot(snap => $('stat-clients').innerText = snap.size);
         db.collection('bookings').onSnapshot(snap => $('stat-bookings').innerText = snap.size);
         renderAdminServices();
@@ -337,11 +317,9 @@ const app = (() => {
         resDiv.innerHTML = '<p>Buscando...</p>';
 
         try {
-            // Buscar por código exacto (forma más rápida)
             let snap = await db.collection('users').where('code', '==', query).get();
             
             if(snap.empty) {
-                // Si no, intentar por nombre o correo (en prod usar indexado como Algolia, aquí hacemos simple fallback)
                 snap = await db.collection('users').where('email', '==', query.toLowerCase()).get();
             }
 
@@ -372,14 +350,13 @@ const app = (() => {
         try {
             await db.collection('users').doc(uid).update({ visits: currentVisits + 1 });
             alert('Visita registrada exitosamente.');
-            $('admin-client-result').innerHTML = ''; // Limpiar búsqueda
+            $('admin-client-result').innerHTML = ''; 
             $('admin-search-client').value = '';
         } catch (e) {
             alert('Error: ' + e.message);
         }
     };
 
-    // Admin CRUD: Services
     const addService = async (e) => {
         e.preventDefault();
         try {
@@ -412,7 +389,6 @@ const app = (() => {
         });
     };
 
-    // Admin CRUD: Promos
     const addPromo = async (e) => {
         e.preventDefault();
         try {
@@ -447,7 +423,7 @@ const app = (() => {
         }
     };
 
-    // Exponer API Pública
+    // Exponer la API Pública
     return {
         navigate, showModal, hideModal, toggleMenu,
         login, register, logout, submitBooking,
@@ -455,25 +431,3 @@ const app = (() => {
         addService, addPromo, deleteDoc
     };
 })();
-
-// firebase.js
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-import { getStorage } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
-
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-
-
-// Exportar servicios para usar en app.js
-export const auth = getAuth(app);
-export const db = getFirestore(app);
-export const storage = getStorage(app);
