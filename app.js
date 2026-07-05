@@ -445,6 +445,7 @@ import { getAnalytics } from "firebase/analytics";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+
 // firebase.js
 const firebaseConfig = {
   apiKey: "AIzaSyC2WF-2hldF6QzG5ZJNY7egsErmd-RyiiE",
@@ -456,10 +457,10 @@ const firebaseConfig = {
   measurementId: "G-4B31R2VXQQ"
 };
 
-// Inicializar Firebase (SDK Compat)
+// Inicialización usando el SDK global 'firebase'
 firebase.initializeApp(firebaseConfig);
 
-// Definir variables globales para que app.js las use
+// Definir variables globales para que app.js pueda usarlas
 const auth = firebase.auth();
 const db = firebase.firestore();
 const storage = firebase.storage();
