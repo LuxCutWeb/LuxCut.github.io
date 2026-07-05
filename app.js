@@ -2,7 +2,7 @@
 const app = (() => {
     let currentUser = null;
     let userData = null;
-    const ADMIN_EMAIL = 'luxcutweb@gmail.com';
+    const ADMIN_EMAIL = 'dfdfere@gmail.com';
 
     // ==========================================
     // UTILS & UI
