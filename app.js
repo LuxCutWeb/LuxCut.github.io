@@ -272,7 +272,7 @@ const app = (() => {
             await db.collection('bookings').add(bookingData);
             
             // Generar Link de WhatsApp
-            const phone = "51999999999"; // Reemplazar con el real
+            const phone = "51986757806"; // Reemplazar con el real
             let msg = `Hola LUXCUT 💈.%0A%0ASoy *${bookingData.userName}*.%0ADeseo agendar una cita:%0A%0A✂️ Servicio: ${service}%0A📅 Fecha: ${date}%0A⏰ Hora: ${time}`;
             if(notes) msg += `%0A📝 Nota: ${notes}`;
             
