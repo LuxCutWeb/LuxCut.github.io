@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUXCUT BARBER STUDIO</title>
+    <meta name="description" content="Estudio de barbería de alto nivel. Cortes, estilo y exclusividad.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="loader" class="loader-container">
+        <div class="spinner"></div>
+    </div>
+
+    <a href="https://wa.me/51999999999" target="_blank" class="float-wa glass-btn">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <header class="navbar glass">
+        <div class="logo">LUXCUT<span>.</span></div>
+        <nav id="nav-links">
+            <button class="nav-btn active" onclick="app.navigate('home')">Inicio</button>
+            <button class="nav-btn" onclick="app.navigate('services')">Servicios</button>
+            <button class="nav-btn" onclick="app.navigate('gallery')">Galería</button>
+            <button class="nav-btn" onclick="app.navigate('promotions')">Promociones</button>
+            <button class="nav-btn" onclick="app.navigate('bookings')">Reservas</button>
+            <button class="nav-btn auth-req hidden" onclick="app.navigate('profile')">Mi Perfil</button>
+            <button class="nav-btn admin-req hidden" onclick="app.navigate('admin')">Panel Admin</button>
+        </nav>
+        <div class="auth-buttons">
+            <button id="btn-login-modal" class="btn-outline guest-req" onclick="app.showModal('login-modal')">Ingresar</button>
+            <button id="btn-logout" class="btn-solid auth-req hidden" onclick="app.logout()">Salir</button>
+            <div class="menu-toggle" onclick="app.toggleMenu()"><i class="fas fa-bars"></i></div>
+        </div>
+    </header>
+
+    <main id="main-content">
+        
+        <section id="home" class="view active">
+            <div class="hero">
+                <div class="hero-content fade-in-up">
+                    <h1>Eleva tu <span>Estilo</span></h1>
+                    <p>La experiencia definitiva en grooming masculino. Minimalismo, precisión y exclusividad.</p>
+                    <div class="hero-btns">
+                        <button class="btn-solid large" onclick="app.navigate('bookings')">Reservar Ahora</button>
+                        <button class="btn-outline large" onclick="app.navigate('services')">Ver Servicios</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="container section-padding">
+                <div class="section-title">
+                    <h2>Nuestra Esencia</h2>
+                    <p>Más que un corte, un ritual de cuidado personal.</p>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card glass hover-lift">
+                        <i class="fas fa-cut"></i>
+                        <h3>Precisión Absoluta</h3>
+                        <p>Técnicas avanzadas adaptadas a tu estructura facial.</p>
+                    </div>
+                    <div class="feature-card glass hover-lift">
+                        <i class="fas fa-spa"></i>
+                        <h3>Tratamientos Premium</h3>
+                        <p>Productos orgánicos de la más alta calidad.</p>
+                    </div>
+                    <div class="feature-card glass hover-lift">
+                        <i class="fas fa-glass-martini-alt"></i>
+                        <h3>Bar Exclusivo</h3>
+                        <p>Disfruta de una bebida de cortesía durante tu servicio.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="view">
+            <div class="container section-padding">
+                <div class="section-title">
+                    <h2>Servicios</h2>
+                    <p>Excelencia en cada detalle.</p>
+                </div>
+                <div id="services-grid" class="grid-layout">
+                    </div>
+            </div>
+        </section>
+
+        <section id="gallery" class="view">
+            <div class="container section-padding">
+                <div class="section-title">
+                    <h2>Galería</h2>
+                    <p>Nuestro trabajo habla por sí mismo.</p>
+                </div>
+                <div id="gallery-grid" class="gallery-layout">
+                    </div>
+            </div>
+        </section>
+
+        <section id="promotions" class="view">
+            <div class="container section-padding">
+                <div class="section-title">
+                    <h2>Promociones</h2>
+                    <p>Beneficios exclusivos para ti.</p>
+                </div>
+                <div id="promotions-grid" class="grid-layout">
+                    </div>
+            </div>
+        </section>
+
+        <section id="bookings" class="view">
+            <div class="container section-padding">
+                <div class="booking-container glass">
+                    <h2>Agendar Cita</h2>
+                    <form id="booking-form" onsubmit="app.submitBooking(event)">
+                        <div class="input-group">
+                            <label>Servicio</label>
+                            <select id="book-service" required></select>
+                        </div>
+                        <div class="input-group">
+                            <label>Fecha</label>
+                            <input type="date" id="book-date" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Hora</label>
+                            <input type="time" id="book-time" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Observaciones</label>
+                            <textarea id="book-notes" rows="3" placeholder="Comentarios adicionales..."></textarea>
+                        </div>
+                        <button type="submit" class="btn-solid w-100">Confirmar Reserva vía WhatsApp</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <section id="profile" class="view">
+            <div class="container section-padding">
+                <div class="profile-header glass">
+                    <img id="prof-img" src="https://via.placeholder.com/150" alt="Perfil">
+                    <div class="prof-info">
+                        <h2 id="prof-name">Cargando...</h2>
+                        <p id="prof-email"></p>
+                        <p class="prof-code" id="prof-code">LUX0000</p>
+                    </div>
+                </div>
+
+                <div class="loyalty-card glass mt-2">
+                    <h3>Tarjeta de Fidelidad</h3>
+                    <p id="loyalty-status">Visitas: 0</p>
+                    <div class="progress-bar"><div class="progress" id="loyalty-progress"></div></div>
+                    <div class="stamps-grid" id="stamps-grid">
+                        </div>
+                    <div class="reward-msg mt-2" id="reward-msg"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="admin" class="view">
+            <div class="container section-padding">
+                <h2>Dashboard Administrador</h2>
+                
+                <div class="admin-stats grid-layout mt-2">
+                    <div class="stat-card glass"><h3 id="stat-clients">0</h3><p>Clientes Totales</p></div>
+                    <div class="stat-card glass"><h3 id="stat-bookings">0</h3><p>Reservas Totales</p></div>
+                </div>
+
+                <div class="admin-tabs mt-2">
+                    <button class="btn-outline active" onclick="app.switchAdminTab('admin-clients')">Clientes & Visitas</button>
+                    <button class="btn-outline" onclick="app.switchAdminTab('admin-services')">Servicios</button>
+                    <button class="btn-outline" onclick="app.switchAdminTab('admin-promos')">Promociones</button>
+                </div>
+
+                <div id="admin-clients" class="admin-tab-content active mt-2">
+                    <div class="glass p-2">
+                        <h3>Registrar Visita</h3>
+                        <div class="search-bar flex gap-1">
+                            <input type="text" id="admin-search-client" placeholder="Buscar por Nombre, Correo o Código (ej. LUX0001)">
+                            <button class="btn-solid" onclick="app.searchClient()">Buscar</button>
+                        </div>
+                        <div id="admin-client-result" class="mt-2"></div>
+                    </div>
+                </div>
+
+                <div id="admin-services" class="admin-tab-content mt-2 hidden">
+                    <div class="glass p-2">
+                        <h3>Gestión de Servicios</h3>
+                        <form id="form-add-service" onsubmit="app.addService(event)" class="grid-form">
+                            <input type="text" id="srv-name" placeholder="Nombre" required>
+                            <input type="text" id="srv-desc" placeholder="Descripción" required>
+                            <input type="text" id="srv-time" placeholder="Duración (ej. 45 min)" required>
+                            <input type="number" id="srv-price" placeholder="Precio" required>
+                            <input type="url" id="srv-img" placeholder="URL de Imagen" required>
+                            <button type="submit" class="btn-solid">Agregar</button>
+                        </form>
+                        <div id="admin-services-list" class="mt-2"></div>
+                    </div>
+                </div>
+
+                <div id="admin-promos" class="admin-tab-content mt-2 hidden">
+                     <div class="glass p-2">
+                        <h3>Gestión de Promociones</h3>
+                        <form id="form-add-promo" onsubmit="app.addPromo(event)" class="grid-form">
+                            <input type="text" id="pro-name" placeholder="Título" required>
+                            <input type="text" id="pro-desc" placeholder="Descripción" required>
+                            <input type="text" id="pro-discount" placeholder="Descuento (ej. 20%)" required>
+                            <button type="submit" class="btn-solid">Agregar Promoción</button>
+                        </form>
+                        <div id="admin-promos-list" class="mt-2"></div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">LUXCUT<span>.</span></div>
+            <div class="social-links">
+                <a href="#" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-tiktok"></i></a>
+            </div>
+            <p>&copy; 2026 LUXCUT Barber Studio. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <div id="login-modal" class="modal-overlay hidden">
+        <div class="modal glass">
+            <button class="close-btn" onclick="app.hideModal('login-modal')"><i class="fas fa-times"></i></button>
+            <h2>Iniciar Sesión</h2>
+            <form onsubmit="app.login(event)">
+                <input type="email" id="login-email" placeholder="Correo electrónico" required>
+                <input type="password" id="login-pass" placeholder="Contraseña" required>
+                <button type="submit" class="btn-solid w-100">Ingresar</button>
+            </form>
+            <p class="mt-2 text-center">¿No tienes cuenta? <a href="#" onclick="app.hideModal('login-modal'); app.showModal('register-modal')">Regístrate</a></p>
+        </div>
+    </div>
+
+    <div id="register-modal" class="modal-overlay hidden">
+        <div class="modal glass">
+            <button class="close-btn" onclick="app.hideModal('register-modal')"><i class="fas fa-times"></i></button>
+            <h2>Crear Cuenta</h2>
+            <form onsubmit="app.register(event)">
+                <div class="grid-2">
+                    <input type="text" id="reg-name" placeholder="Nombre" required>
+                    <input type="text" id="reg-lname" placeholder="Apellido" required>
+                </div>
+                <input type="email" id="reg-email" placeholder="Correo electrónico" required>
+                <input type="tel" id="reg-phone" placeholder="Celular" required>
+                <input type="date" id="reg-dob" required title="Fecha de nacimiento">
+                <input type="password" id="reg-pass" placeholder="Contraseña" required>
+                <input type="url" id="reg-photo" placeholder="URL Foto de Perfil (Opcional)">
+                <button type="submit" class="btn-solid w-100">Registrarse</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+    
+    <script src="firebase.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
