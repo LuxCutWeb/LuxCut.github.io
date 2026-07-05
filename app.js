@@ -1,5 +1,6 @@
 // app.js
 const app = (() => {
+    // Ya no necesitas declarar auth, db, storage, ya son globales por el script anterior
     let currentUser = null;
     let userData = null;
     const ADMIN_EMAIL = 'dfdfere@gmail.com';
