@@ -1,3 +1,29 @@
+// --- 1. CONFIGURACIÓN DE FIREBASE (Al principio de app.js) ---
+const firebaseConfig = {
+  apiKey: "AIzaSyC2WF-2hldF6QzG5ZJNY7egsErmd-RyiiE",
+  authDomain: "luxcutweb-8c8d7.firebaseapp.com",
+  projectId: "luxcutweb-8c8d7",
+  storageBucket: "luxcutweb-8c8d7.firebasestorage.app",
+  messagingSenderId: "1054388909755",
+  appId: "1:1054388909755:web:e5b36947acefaf94a85b9e",
+  measurementId: "G-4B31R2VXQQ"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+// Definimos las variables globales aquí mismo para que todo app.js las vea
+const auth = firebase.auth();
+const db = firebase.firestore();
+const storage = firebase.storage();
+
+// --- 2. TU LÓGICA DE LA WEB (Aquí empieza tu código original) ---
+const app = (() => {
+    // ... todo tu código original aquí ...
+})();
+
+
+
+
 // app.js
 const app = (() => {
     let currentUser = null;
@@ -446,29 +472,7 @@ import { getAnalytics } from "firebase/analytics";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 
-// firebase.js
-// --- 1. CONFIGURACIÓN DE FIREBASE (Al principio de app.js) ---
-const firebaseConfig = {
-  apiKey: "AIzaSyC2WF-2hldF6QzG5ZJNY7egsErmd-RyiiE",
-  authDomain: "luxcutweb-8c8d7.firebaseapp.com",
-  projectId: "luxcutweb-8c8d7",
-  storageBucket: "luxcutweb-8c8d7.firebasestorage.app",
-  messagingSenderId: "1054388909755",
-  appId: "1:1054388909755:web:e5b36947acefaf94a85b9e",
-  measurementId: "G-4B31R2VXQQ"
-};
 
-firebase.initializeApp(firebaseConfig);
-
-// Definimos las variables globales aquí mismo para que todo app.js las vea
-const auth = firebase.auth();
-const db = firebase.firestore();
-const storage = firebase.storage();
-
-// --- 2. TU LÓGICA DE LA WEB (Aquí empieza tu código original) ---
-const app = (() => {
-    // ... todo tu código original aquí ...
-})();
 // Exportar servicios para usar en app.js
 export const auth = getAuth(app);
 export const db = getFirestore(app);
