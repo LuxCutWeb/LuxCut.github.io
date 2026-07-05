@@ -447,6 +447,7 @@ import { getAnalytics } from "firebase/analytics";
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 
 // firebase.js
+// --- 1. CONFIGURACIÓN DE FIREBASE (Al principio de app.js) ---
 const firebaseConfig = {
   apiKey: "AIzaSyC2WF-2hldF6QzG5ZJNY7egsErmd-RyiiE",
   authDomain: "luxcutweb-8c8d7.firebaseapp.com",
@@ -457,13 +458,17 @@ const firebaseConfig = {
   measurementId: "G-4B31R2VXQQ"
 };
 
-// Inicialización usando el SDK global 'firebase'
 firebase.initializeApp(firebaseConfig);
 
-// Definir variables globales para que app.js pueda usarlas
+// Definimos las variables globales aquí mismo para que todo app.js las vea
 const auth = firebase.auth();
 const db = firebase.firestore();
 const storage = firebase.storage();
+
+// --- 2. TU LÓGICA DE LA WEB (Aquí empieza tu código original) ---
+const app = (() => {
+    // ... todo tu código original aquí ...
+})();
 // Exportar servicios para usar en app.js
 export const auth = getAuth(app);
 export const db = getFirestore(app);
