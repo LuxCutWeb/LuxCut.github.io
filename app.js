@@ -11,12 +11,12 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-// Definimos las variables globales
+// Definimos las variables globales de Firebase
 const auth = firebase.auth();
 const db = firebase.firestore();
 const storage = firebase.storage();
 
-// --- 2. LÓGICA DE LA APLICACIÓN ---
+// --- 2. TU LÓGICA DE LA WEB ---
 const app = (() => {
     let currentUser = null;
     let userData = null;
@@ -58,6 +58,7 @@ const app = (() => {
     // AUTH & USERS
     // ==========================================
     const initApp = () => {
+        // Escuchar estado de auth
         auth.onAuthStateChanged(async (user) => {
             currentUser = user;
             const guestReq = document.querySelectorAll('.guest-req');
@@ -69,6 +70,7 @@ const app = (() => {
                 guestReq.forEach(el => el.classList.add('hidden'));
                 authReq.forEach(el => el.classList.remove('hidden'));
                 
+                // Obtener doc
                 const doc = await db.collection('users').doc(user.uid).get();
                 if(doc.exists) {
                     userData = doc.data();
@@ -77,6 +79,7 @@ const app = (() => {
 
                 if (user.email === ADMIN_EMAIL) {
                     adminReq.forEach(el => el.classList.remove('hidden'));
+                    // Hide client profile for admin
                     Array.from(authReq).forEach(el => {
                         if(el.getAttribute('onclick') === "app.navigate('profile')") el.classList.add('hidden');
                     });
@@ -94,8 +97,10 @@ const app = (() => {
             }
         });
 
+        // Load public data
         loadServices();
         loadPromotions();
+        // Cargar galería de prueba (Simulada para diseño)
         renderGallery();
     };
 
@@ -109,6 +114,7 @@ const app = (() => {
         try {
             const cred = await auth.createUserWithEmailAndPassword(email, pass);
             
+            // Generar código único LUX000X (Búsqueda rápida)
             const usersSnap = await db.collection('users').orderBy('codeNum', 'desc').limit(1).get();
             let nextNum = 1;
             if(!usersSnap.empty) {
@@ -202,6 +208,7 @@ const app = (() => {
             grid.innerHTML = ''; select.innerHTML = '<option value="">Selecciona un servicio...</option>';
             snap.forEach(doc => {
                 const s = doc.data();
+                // Render Cards
                 grid.innerHTML += `
                     <div class="service-card glass hover-lift">
                         <div class="service-img" style="background-image: url('${s.img}')"></div>
@@ -215,6 +222,7 @@ const app = (() => {
                             <button class="btn-outline w-100 mt-auto" onclick="app.navigate('bookings')">Reservar</button>
                         </div>
                     </div>`;
+                // Render Booking Select Options
                 select.innerHTML += `<option value="${s.name}">${s.name} - S/ ${s.price}</option>`;
             });
         });
@@ -238,6 +246,7 @@ const app = (() => {
     };
 
     const renderGallery = () => {
+        // Simulación de imágenes para la UI
         const urls = [
             'https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=600&q=80',
             'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=600&q=80',
@@ -280,6 +289,7 @@ const app = (() => {
         try {
             await db.collection('bookings').add(bookingData);
             
+            // Generar Link de WhatsApp
             const phone = "51986757806"; 
             let msg = `Hola LUXCUT 💈.%0A%0ASoy *${bookingData.userName}*.%0ADeseo agendar una cita:%0A%0A✂️ Servicio: ${service}%0A📅 Fecha: ${date}%0A⏰ Hora: ${time}`;
             if(notes) msg += `%0A📝 Nota: ${notes}`;
@@ -423,7 +433,7 @@ const app = (() => {
         }
     };
 
-    // Exponer la API Pública
+    // Exponer API Pública
     return {
         navigate, showModal, hideModal, toggleMenu,
         login, register, logout, submitBooking,
