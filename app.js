@@ -428,3 +428,37 @@ const app = (() => {
         addService, addPromo, deleteDoc
     };
 })();
+
+// firebase.js
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getStorage } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
+
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyC2WF-2hldF6QzG5ZJNY7egsErmd-RyiiE",
+  authDomain: "luxcutweb-8c8d7.firebaseapp.com",
+  projectId: "luxcutweb-8c8d7",
+  storageBucket: "luxcutweb-8c8d7.firebasestorage.app",
+  messagingSenderId: "1054388909755",
+  appId: "1:1054388909755:web:e5b36947acefaf94a85b9e",
+  measurementId: "G-4B31R2VXQQ"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
+// Exportar servicios para usar en app.js
+export const auth = getAuth(app);
+export const db = getFirestore(app);
+export const storage = getStorage(app);
